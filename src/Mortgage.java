@@ -15,35 +15,29 @@ public class Mortgage {
     }
     // prints monthly mortgage payment
     public void printMortgage(int principal,float annualInterest,byte years){
-        double mortgage = calculateMortgage(principal, annualInterest, years);
+        float monthlyInterest = annualInterest / PERCENT / MONTHS_IN_YEAR;
+        float numberOfPayments = years * MONTHS_IN_YEAR;
+        double mortgage = principal *
+                (monthlyInterest * Math.pow(1 + monthlyInterest, numberOfPayments))
+                / (Math.pow(1 + monthlyInterest, numberOfPayments) - 1);
         System.out.println("MORTGAGE");
         System.out.println("--------");
         System.out.println("Monthly Payments: " + NumberFormat.getCurrencyInstance().format(mortgage));
     }
     // prints remaining money to pay off mortgage each month
     public void printPaymentSchedule(int principal,float annualInterest,byte years){
+        float monthlyInterest = annualInterest / PERCENT / MONTHS_IN_YEAR;
+        float numberOfPayments = years * MONTHS_IN_YEAR;
         System.out.println();
         System.out.println("PAYMENT SCHEDULE");
         System.out.println("----------------");
         for(short month = 1; month <= years * MONTHS_IN_YEAR; month++){
-            double balance = calculateBalance(principal,annualInterest,years,month);
+            double balance = principal *
+                    (Math.pow(1 + monthlyInterest, numberOfPayments) - Math.pow(1 + monthlyInterest, month))
+                    / (Math.pow(1 + monthlyInterest, numberOfPayments) - 1);
             System.out.println(NumberFormat.getCurrencyInstance().format(balance));
         }
     }
 
-    public static double calculateBalance(int principal, float annualInterest, byte years, short numberOfPaymentsMade) {
-        float monthlyInterest = annualInterest / PERCENT / MONTHS_IN_YEAR;
-        float numberOfPayments = years * MONTHS_IN_YEAR;
-        return principal *
-                (Math.pow(1 + monthlyInterest, numberOfPayments) - Math.pow(1 + monthlyInterest, numberOfPaymentsMade))
-                / (Math.pow(1 + monthlyInterest, numberOfPayments) - 1);
-    }
-    // calculates monthly mortgage payment
-    public static double calculateMortgage(int principal,float annualInterest, byte years) {
-        float monthlyInterest = annualInterest / PERCENT / MONTHS_IN_YEAR;
-        float numberOfPayments = years * MONTHS_IN_YEAR;
-        return principal *
-                (monthlyInterest * Math.pow(1 + monthlyInterest, numberOfPayments))
-                / (Math.pow(1 + monthlyInterest, numberOfPayments) - 1);
-    }
+
 }
