@@ -13,7 +13,7 @@ public class Main {
         }
         // asking user for yearly rate (0;100)
         System.out.println("Enter the yearly rate (0-100)");
-        float r = input.nextInt();
+        float r = input.nextFloat();
         // if yearly rate isn't in 0-100 range asking user to enter a valid number
         while (r < 0 || r > 100) {
             System.out.println("Please enter a valid number");
